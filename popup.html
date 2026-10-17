@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SlideShots</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <main>
+    <header><img class="logo" src="icons/icon-48.png" alt=""><div><h1>SlideShots</h1><p>撮る範囲を選んで、1回で保存。</p></div></header>
+    <div class="modes" role="tablist" aria-label="設定"><button id="generalTab" role="tab" aria-selected="true" aria-controls="generalPanel">一般</button><button id="detailsTab" role="tab" aria-selected="false" aria-controls="detailsPanel" tabindex="-1">詳細</button></div>
+    <div class="settings-area" id="generalPanel" role="tabpanel" aria-labelledby="generalTab">
+      <fieldset class="scope" aria-label="撮影範囲">
+        <label class="scope-card"><input type="radio" name="scope" value="page" checked><span><strong>ページ全体</strong><small>開いているページを、先頭から末尾まで</small></span></label>
+        <label class="scope-card"><input type="radio" name="scope" value="region"><span><strong>内部ページ</strong><small>スクロールする枠・埋め込みページを選択</small></span></label>
+      </fieldset>
+      <p id="pageHint" class="hint">内部のスクロール枠は、表示中の部分が写ります。</p>
+      <section id="regionPanel" class="region-panel" hidden>
+        <p id="selection" class="selection">まだ範囲を選んでいません。</p>
+        <button id="pickRegion" class="outline">ページ上で範囲を選ぶ <span aria-hidden="true">↗</span></button>
+        <button id="frameDocument" class="text-button" hidden>この埋め込みページ全体に変更</button>
+        <div class="help-row"><button class="info-icon" type="button" data-help="撮りたい枠の中をクリックしてください。" aria-label="撮りたい枠の中をクリックしてください。">i</button></div>
+      </section>
+      <section class="timing">
+        <div class="section-head"><h2>描画の待ち時間</h2><button class="info-icon" type="button" data-help="200〜10,000 ms。文書ビューアーなど表示が遅いページは長めに設定してください。" aria-label="200〜10,000 ms。文書ビューアーなど表示が遅いページは長めに設定してください。">i</button></div>
+        <div class="presets" role="group" aria-label="描画の待ち時間"><button data-wait="1000" aria-pressed="true">標準 <small>1秒</small></button><button data-wait="2000" aria-pressed="false">じっくり <small>2秒</small></button></div>
+        <label class="number-label" for="waitMs">細かく指定<input id="waitMs" type="number" min="200" max="10000" step="1" value="1000" inputmode="numeric"><span>ms</span></label>
+      </section>
+    </div>
+    <div class="settings-area" id="detailsPanel" role="tabpanel" aria-labelledby="detailsTab" hidden>
+      <section class="output-options">
+        <h2>保存先</h2>
+        <label class="choice"><input type="radio" name="destination" value="downloads" checked>ダウンロード</label>
+        <label class="choice"><input type="radio" name="destination" value="folder">指定フォルダー</label>
+        <div id="folderControls" class="folder-controls" hidden><button id="chooseFolder" class="outline" type="button">フォルダーを選ぶ</button><span id="folderName">未選択</span></div>
+        <label class="format-label" for="format">保存形式</label>
+        <select id="format"><option value="png">PNG（劣化なし）</option><option value="jpeg">JPEG（小さめ）</option><option value="webp">WebP（小さめ）</option><option value="pdf">PDF（A4縦・複数ページ）</option></select>
+      </section>
+      <section class="detail-option">
+        <h2>撮影の確認</h2>
+        <label class="check-label"><input id="verify" type="checkbox"><span><strong>継ぎ目を検証する</strong><small>各画面を2回撮って比較します。撮影時間は通常の約2倍です。</small></span></label>
+      </section>
+      <section class="console">
+        <div class="console-bar"><h2>ログコンソール</h2><button class="info-icon" type="button" data-help="直近の撮影の内部記録（最大600行）。エラーの調査に使います。" aria-label="直近の撮影の内部記録（最大600行）。エラーの調査に使います。">i</button><button id="copyLog" class="text-button" type="button">コピー</button><button id="clearLog" class="text-button" type="button">消去</button></div>
+        <pre id="log">ログはまだありません。</pre>
+      </section>
+    </div>
+    <footer>
+      <p id="notice" role="alert" hidden></p>
+      <button id="start" class="primary" disabled>ページ全体を撮影</button>
+      <button id="stop" class="outline" hidden>撮影を停止</button>
+      <p id="status" role="status" aria-live="polite">準備しています…</p>
+      <p id="saveSummary" class="foot">PNG · ダウンロード / SlideShots に保存</p>
+    </footer>
+  </main>
+  <div id="helpTooltip" class="help-tooltip" role="tooltip" hidden></div>
+  <script src="directory-store.js"></script><script src="popup.js"></script>
+</body>
+</html>
