@@ -1,5 +1,6 @@
 /test/
 /*.zip
 /REVIEW.md
+/README.md
 /.live-profile*/
 /.publish-github.cjs
